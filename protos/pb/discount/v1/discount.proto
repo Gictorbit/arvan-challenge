@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package discount.v1;
+
+import "google/api/annotations.proto";
+
+service DiscountService {
+  rpc Discounts(DiscountsRequest) returns (DiscountsResponse) {
+    option (google.api.http) = {get: "/api/v1/discount/discounts"};
+  }
+}
+
+message DiscountsRequest {}
+
+message DiscountsResponse {}

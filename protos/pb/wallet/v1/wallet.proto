@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package wallet.v1;
+
+import "google/api/annotations.proto";
+
+service WalletService {
+  rpc MyBalance(MyBalanceRequest) returns (MyBalanceResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/wallet/mybalance"
+      body: "*"
+    };
+  }
+  rpc Transactions(TransactionsRequest) returns (TransactionsResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/wallet/transactions"
+      body: "*"
+    };
+  }
+}
+
+message Wallet {
+  string id = 1;
+  uint64 balance = 2;
+  string unit = 3;
+}
+message MyBalanceRequest {
+  uint32 user_id = 1;
+}
+
+message MyBalanceResponse {}
+
+message TransactionsRequest {}
+
+message TransactionsResponse {}

@@ -1,0 +1,22 @@
+
+# format protos
+format:
+    @echo "format protos..."
+    buf format -w -d
+
+# run buf linter
+lint: format
+    @echo "run proto linter..."
+    buf lint
+
+# generate protos
+generate: remove lint
+    @echo "generate protos..."
+    buf generate
+    find ./gen -type f -exec sed -i '/github\.com\/arvan-challenge\/protos\/gen\/gnostic\/openapi\/v3/d' {} \;
+    goimports -w ./gen
+# removes gen directoy
+remove:
+    @echo "remove generated protos..."
+    @rm -rf "./gen"
+    @rm -rf "./docs"
