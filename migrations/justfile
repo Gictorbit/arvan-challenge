@@ -1,0 +1,38 @@
+#!/usr/bin/env just --justfile
+# list of available commands
+default:
+  @just --list
+
+tagCommit := `[ -d ".git" ] && (git rev-list --abbrev-commit --tags --max-count=1) || true`
+lastVersion := `[ -d ".git" ] && (git describe --tags --abbrev=0 2>/dev/null || git symbolic-ref -q --short HEAD) || true`
+lastBranchName := `[ -d ".git" ] && (git describe --tags --exact-match HEAD 2>/dev/null || git symbolic-ref -q --short HEAD) || true`
+goVersion := `if [ -f "go.mod" ]; then grep -oP '^go\s+\K\d+(\.\d+)?' go.mod; else go version | sed -n 's/.*go\([0-9.]*\).*/\1/p'; fi`
+serviceName := `[ -d ".git" ] && (git remote get-url origin 2>/dev/null | sed -E 's#.*/([^/]+)\.git#\1#; s#.*/([^/]+)#\1#') || true`
+repoRemoteURL := `[ -d ".git" ] && (git config --get remote.origin.url) || true`
+githubOrigin := `[ -d ".git" ] && (git config --get remote.origin.url | grep github.com || echo "") || true`
+
+# clean build directory
+clean:
+    @echo "clean bin directory..."
+    @[ -d "./bin" ] && rm -r ./bin && echo "bin directory cleaned" || true
+
+# clean and build project
+build: clean
+    go build -o ./bin/migration -ldflags="-s -w" -ldflags="-X 'main.Version={{lastBranchName}}' -X 'main.BuildDate=$(date -u '+%Y-%m-%d %H:%M:%S')'" .
+
+# build and compress binary
+upx: build
+    upx --best --lzma bin/migration
+
+# run up migrations
+up: build
+    ./bin/migration --driver pgx --database "postgres://pgdbadmin:12345678@127.0.0.1:9623/postgresdb?sslmode=disable" --path "migrations/sqls" up
+
+
+# create new sql migration
+create-sql MigrateName:
+    goose -dir migrations/sqls create {{MigrateName}} sql
+
+# create new golang migration
+create-gomigrate MigrateName:
+    goose -dir migrations/golang create {{MigrateName}} go
