@@ -16,14 +16,14 @@
     "application/json"
   ],
   "paths": {
-    "/api/v1/discount/discounts": {
-      "get": {
-        "operationId": "DiscountService_Discounts",
+    "/api/v1/discount/applycode": {
+      "post": {
+        "operationId": "DiscountService_ApplyGiftCode",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1DiscountsResponse"
+              "$ref": "#/definitions/v1ApplyGiftCodeResponse"
             }
           },
           "default": {
@@ -33,6 +33,77 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ApplyGiftCodeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DiscountService"
+        ]
+      }
+    },
+    "/api/v1/discount/events": {
+      "get": {
+        "operationId": "DiscountService_Events",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1EventsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "DiscountService"
+        ]
+      }
+    },
+    "/api/v1/discount/publishevent": {
+      "get": {
+        "operationId": "DiscountService_PublishEvent",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1PublishEventResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "tags": [
           "DiscountService"
         ]
@@ -40,6 +111,17 @@
     }
   },
   "definitions": {
+    "EventUsersResponseUserCodeUsage": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        }
+      }
+    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -67,7 +149,47 @@
         }
       }
     },
-    "v1DiscountsResponse": {
+    "v1ApplyGiftCodeRequest": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ApplyGiftCodeResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "newBalance": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "v1EventUsersResponse": {
+      "type": "object",
+      "properties": {
+        "userUsages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EventUsersResponseUserCodeUsage"
+          }
+        }
+      }
+    },
+    "v1EventsResponse": {
+      "type": "object"
+    },
+    "v1PublishEventResponse": {
       "type": "object"
     }
   }

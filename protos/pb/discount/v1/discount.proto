@@ -5,11 +5,60 @@ package discount.v1;
 import "google/api/annotations.proto";
 
 service DiscountService {
-  rpc Discounts(DiscountsRequest) returns (DiscountsResponse) {
-    option (google.api.http) = {get: "/api/v1/discount/discounts"};
+  rpc Events(EventsRequest) returns (EventsResponse) {
+    option (google.api.http) = {get: "/api/v1/discount/events"};
   }
+  rpc PublishEvent(PublishEventRequest) returns (PublishEventResponse) {
+    option (google.api.http) = {get: "/api/v1/discount/publishevent"};
+  }
+  rpc ApplyGiftCode(ApplyGiftCodeRequest) returns (ApplyGiftCodeResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/discount/applycode"
+      body: "*"
+    };
+  }
+  rpc EventUsers(EventUsersRequest) returns (EventUsersResponse) {}
+}
+message ApplyGiftCodeRequest {
+  string phone = 1;
+  string code = 2;
 }
 
-message DiscountsRequest {}
+message ApplyGiftCodeResponse {
+  bool success = 1;
+  string message = 2;
+  double new_balance = 3;
+}
 
-message DiscountsResponse {}
+message EventsRequest {
+  uint32 user_id = 1;
+}
+
+message EventsResponse {}
+
+message Event {
+  string code = 1;
+  string title = 2;
+  string description = 3;
+  uint64 start_time = 4;
+  uint32 max_users = 5;
+  uint64 end_time = 6;
+}
+
+message PublishEventRequest {
+  string event_id = 1;
+}
+
+message PublishEventResponse {}
+
+message EventUsersRequest {
+  string code = 1;
+}
+
+message EventUsersResponse {
+  repeated UserCodeUsage user_usages = 1;
+  message UserCodeUsage {
+    string user_id = 1;
+    string timestamp = 2;
+  }
+}

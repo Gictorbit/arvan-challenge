@@ -20,16 +20,16 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	WalletService_MyBalance_FullMethodName    = "/wallet.v1.WalletService/MyBalance"
-	WalletService_Transactions_FullMethodName = "/wallet.v1.WalletService/Transactions"
+	WalletService_MyWallet_FullMethodName       = "/wallet.v1.WalletService/MyWallet"
+	WalletService_AddTransaction_FullMethodName = "/wallet.v1.WalletService/AddTransaction"
 )
 
 // WalletServiceClient is the client API for WalletService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WalletServiceClient interface {
-	MyBalance(ctx context.Context, in *MyBalanceRequest, opts ...grpc.CallOption) (*MyBalanceResponse, error)
-	Transactions(ctx context.Context, in *TransactionsRequest, opts ...grpc.CallOption) (*TransactionsResponse, error)
+	MyWallet(ctx context.Context, in *MyWalletRequest, opts ...grpc.CallOption) (*MyWalletResponse, error)
+	AddTransaction(ctx context.Context, in *AddTransactionRequest, opts ...grpc.CallOption) (*AddTransactionResponse, error)
 }
 
 type walletServiceClient struct {
@@ -40,18 +40,18 @@ func NewWalletServiceClient(cc grpc.ClientConnInterface) WalletServiceClient {
 	return &walletServiceClient{cc}
 }
 
-func (c *walletServiceClient) MyBalance(ctx context.Context, in *MyBalanceRequest, opts ...grpc.CallOption) (*MyBalanceResponse, error) {
-	out := new(MyBalanceResponse)
-	err := c.cc.Invoke(ctx, WalletService_MyBalance_FullMethodName, in, out, opts...)
+func (c *walletServiceClient) MyWallet(ctx context.Context, in *MyWalletRequest, opts ...grpc.CallOption) (*MyWalletResponse, error) {
+	out := new(MyWalletResponse)
+	err := c.cc.Invoke(ctx, WalletService_MyWallet_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *walletServiceClient) Transactions(ctx context.Context, in *TransactionsRequest, opts ...grpc.CallOption) (*TransactionsResponse, error) {
-	out := new(TransactionsResponse)
-	err := c.cc.Invoke(ctx, WalletService_Transactions_FullMethodName, in, out, opts...)
+func (c *walletServiceClient) AddTransaction(ctx context.Context, in *AddTransactionRequest, opts ...grpc.CallOption) (*AddTransactionResponse, error) {
+	out := new(AddTransactionResponse)
+	err := c.cc.Invoke(ctx, WalletService_AddTransaction_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -62,8 +62,8 @@ func (c *walletServiceClient) Transactions(ctx context.Context, in *Transactions
 // All implementations must embed UnimplementedWalletServiceServer
 // for forward compatibility
 type WalletServiceServer interface {
-	MyBalance(context.Context, *MyBalanceRequest) (*MyBalanceResponse, error)
-	Transactions(context.Context, *TransactionsRequest) (*TransactionsResponse, error)
+	MyWallet(context.Context, *MyWalletRequest) (*MyWalletResponse, error)
+	AddTransaction(context.Context, *AddTransactionRequest) (*AddTransactionResponse, error)
 	mustEmbedUnimplementedWalletServiceServer()
 }
 
@@ -71,11 +71,11 @@ type WalletServiceServer interface {
 type UnimplementedWalletServiceServer struct {
 }
 
-func (UnimplementedWalletServiceServer) MyBalance(context.Context, *MyBalanceRequest) (*MyBalanceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method MyBalance not implemented")
+func (UnimplementedWalletServiceServer) MyWallet(context.Context, *MyWalletRequest) (*MyWalletResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MyWallet not implemented")
 }
-func (UnimplementedWalletServiceServer) Transactions(context.Context, *TransactionsRequest) (*TransactionsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Transactions not implemented")
+func (UnimplementedWalletServiceServer) AddTransaction(context.Context, *AddTransactionRequest) (*AddTransactionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddTransaction not implemented")
 }
 func (UnimplementedWalletServiceServer) mustEmbedUnimplementedWalletServiceServer() {}
 
@@ -90,38 +90,38 @@ func RegisterWalletServiceServer(s grpc.ServiceRegistrar, srv WalletServiceServe
 	s.RegisterService(&WalletService_ServiceDesc, srv)
 }
 
-func _WalletService_MyBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MyBalanceRequest)
+func _WalletService_MyWallet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MyWalletRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WalletServiceServer).MyBalance(ctx, in)
+		return srv.(WalletServiceServer).MyWallet(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WalletService_MyBalance_FullMethodName,
+		FullMethod: WalletService_MyWallet_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WalletServiceServer).MyBalance(ctx, req.(*MyBalanceRequest))
+		return srv.(WalletServiceServer).MyWallet(ctx, req.(*MyWalletRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WalletService_Transactions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TransactionsRequest)
+func _WalletService_AddTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddTransactionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WalletServiceServer).Transactions(ctx, in)
+		return srv.(WalletServiceServer).AddTransaction(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WalletService_Transactions_FullMethodName,
+		FullMethod: WalletService_AddTransaction_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WalletServiceServer).Transactions(ctx, req.(*TransactionsRequest))
+		return srv.(WalletServiceServer).AddTransaction(ctx, req.(*AddTransactionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -134,12 +134,12 @@ var WalletService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*WalletServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "MyBalance",
-			Handler:    _WalletService_MyBalance_Handler,
+			MethodName: "MyWallet",
+			Handler:    _WalletService_MyWallet_Handler,
 		},
 		{
-			MethodName: "Transactions",
-			Handler:    _WalletService_Transactions_Handler,
+			MethodName: "AddTransaction",
+			Handler:    _WalletService_AddTransaction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

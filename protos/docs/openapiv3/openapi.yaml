@@ -6,66 +6,94 @@ info:
     title: ""
     version: 0.0.1
 paths:
-    /api/v1/discount/discounts:
+    /api/v1/discount/applycode:
+        post:
+            tags:
+                - DiscountService
+            operationId: DiscountService_ApplyGiftCode
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ApplyGiftCodeRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApplyGiftCodeResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/discount/events:
         get:
             tags:
                 - DiscountService
-            operationId: DiscountService_Discounts
+            operationId: DiscountService_Events
+            parameters:
+                - name: userId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DiscountsResponse'
+                                $ref: '#/components/schemas/EventsResponse'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /api/v1/wallet/mybalance:
-        post:
+    /api/v1/discount/publishevent:
+        get:
             tags:
-                - WalletService
-            operationId: WalletService_MyBalance
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/MyBalanceRequest'
-                required: true
+                - DiscountService
+            operationId: DiscountService_PublishEvent
+            parameters:
+                - name: eventId
+                  in: query
+                  schema:
+                    type: string
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/MyBalanceResponse'
+                                $ref: '#/components/schemas/PublishEventResponse'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /api/v1/wallet/transactions:
-        post:
+    /api/v1/wallet/mywallet:
+        get:
             tags:
                 - WalletService
-            operationId: WalletService_Transactions
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/TransactionsRequest'
-                required: true
+            operationId: WalletService_MyWallet
+            parameters:
+                - name: userId
+                  in: query
+                  schema:
+                    type: string
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/TransactionsResponse'
+                                $ref: '#/components/schemas/MyWalletResponse'
                 default:
                     description: Default error response
                     content:
@@ -74,7 +102,24 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
-        DiscountsResponse:
+        ApplyGiftCodeRequest:
+            type: object
+            properties:
+                phone:
+                    type: string
+                code:
+                    type: string
+        ApplyGiftCodeResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                message:
+                    type: string
+                newBalance:
+                    type: number
+                    format: double
+        EventsResponse:
             type: object
             properties: {}
         GoogleProtobufAny:
@@ -85,13 +130,17 @@ components:
                     description: The type of the serialized message.
             additionalProperties: true
             description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        MyBalanceRequest:
+        MyWalletResponse:
             type: object
             properties:
-                userId:
-                    type: integer
-                    format: uint32
-        MyBalanceResponse:
+                balance:
+                    type: number
+                    format: double
+                transactions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Transaction'
+        PublishEventResponse:
             type: object
             properties: {}
         Status:
@@ -110,12 +159,18 @@ components:
                         $ref: '#/components/schemas/GoogleProtobufAny'
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-        TransactionsRequest:
+        Transaction:
             type: object
-            properties: {}
-        TransactionsResponse:
-            type: object
-            properties: {}
+            properties:
+                id:
+                    type: string
+                amount:
+                    type: number
+                    format: double
+                description:
+                    type: string
+                timestamp:
+                    type: string
 tags:
     - name: DiscountService
     - name: WalletService

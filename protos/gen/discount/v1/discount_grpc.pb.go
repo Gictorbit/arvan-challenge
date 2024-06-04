@@ -20,14 +20,20 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	DiscountService_Discounts_FullMethodName = "/discount.v1.DiscountService/Discounts"
+	DiscountService_Events_FullMethodName        = "/discount.v1.DiscountService/Events"
+	DiscountService_PublishEvent_FullMethodName  = "/discount.v1.DiscountService/PublishEvent"
+	DiscountService_ApplyGiftCode_FullMethodName = "/discount.v1.DiscountService/ApplyGiftCode"
+	DiscountService_EventUsers_FullMethodName    = "/discount.v1.DiscountService/EventUsers"
 )
 
 // DiscountServiceClient is the client API for DiscountService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DiscountServiceClient interface {
-	Discounts(ctx context.Context, in *DiscountsRequest, opts ...grpc.CallOption) (*DiscountsResponse, error)
+	Events(ctx context.Context, in *EventsRequest, opts ...grpc.CallOption) (*EventsResponse, error)
+	PublishEvent(ctx context.Context, in *PublishEventRequest, opts ...grpc.CallOption) (*PublishEventResponse, error)
+	ApplyGiftCode(ctx context.Context, in *ApplyGiftCodeRequest, opts ...grpc.CallOption) (*ApplyGiftCodeResponse, error)
+	EventUsers(ctx context.Context, in *EventUsersRequest, opts ...grpc.CallOption) (*EventUsersResponse, error)
 }
 
 type discountServiceClient struct {
@@ -38,9 +44,36 @@ func NewDiscountServiceClient(cc grpc.ClientConnInterface) DiscountServiceClient
 	return &discountServiceClient{cc}
 }
 
-func (c *discountServiceClient) Discounts(ctx context.Context, in *DiscountsRequest, opts ...grpc.CallOption) (*DiscountsResponse, error) {
-	out := new(DiscountsResponse)
-	err := c.cc.Invoke(ctx, DiscountService_Discounts_FullMethodName, in, out, opts...)
+func (c *discountServiceClient) Events(ctx context.Context, in *EventsRequest, opts ...grpc.CallOption) (*EventsResponse, error) {
+	out := new(EventsResponse)
+	err := c.cc.Invoke(ctx, DiscountService_Events_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *discountServiceClient) PublishEvent(ctx context.Context, in *PublishEventRequest, opts ...grpc.CallOption) (*PublishEventResponse, error) {
+	out := new(PublishEventResponse)
+	err := c.cc.Invoke(ctx, DiscountService_PublishEvent_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *discountServiceClient) ApplyGiftCode(ctx context.Context, in *ApplyGiftCodeRequest, opts ...grpc.CallOption) (*ApplyGiftCodeResponse, error) {
+	out := new(ApplyGiftCodeResponse)
+	err := c.cc.Invoke(ctx, DiscountService_ApplyGiftCode_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *discountServiceClient) EventUsers(ctx context.Context, in *EventUsersRequest, opts ...grpc.CallOption) (*EventUsersResponse, error) {
+	out := new(EventUsersResponse)
+	err := c.cc.Invoke(ctx, DiscountService_EventUsers_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +84,10 @@ func (c *discountServiceClient) Discounts(ctx context.Context, in *DiscountsRequ
 // All implementations must embed UnimplementedDiscountServiceServer
 // for forward compatibility
 type DiscountServiceServer interface {
-	Discounts(context.Context, *DiscountsRequest) (*DiscountsResponse, error)
+	Events(context.Context, *EventsRequest) (*EventsResponse, error)
+	PublishEvent(context.Context, *PublishEventRequest) (*PublishEventResponse, error)
+	ApplyGiftCode(context.Context, *ApplyGiftCodeRequest) (*ApplyGiftCodeResponse, error)
+	EventUsers(context.Context, *EventUsersRequest) (*EventUsersResponse, error)
 	mustEmbedUnimplementedDiscountServiceServer()
 }
 
@@ -59,8 +95,17 @@ type DiscountServiceServer interface {
 type UnimplementedDiscountServiceServer struct {
 }
 
-func (UnimplementedDiscountServiceServer) Discounts(context.Context, *DiscountsRequest) (*DiscountsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Discounts not implemented")
+func (UnimplementedDiscountServiceServer) Events(context.Context, *EventsRequest) (*EventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Events not implemented")
+}
+func (UnimplementedDiscountServiceServer) PublishEvent(context.Context, *PublishEventRequest) (*PublishEventResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PublishEvent not implemented")
+}
+func (UnimplementedDiscountServiceServer) ApplyGiftCode(context.Context, *ApplyGiftCodeRequest) (*ApplyGiftCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ApplyGiftCode not implemented")
+}
+func (UnimplementedDiscountServiceServer) EventUsers(context.Context, *EventUsersRequest) (*EventUsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EventUsers not implemented")
 }
 func (UnimplementedDiscountServiceServer) mustEmbedUnimplementedDiscountServiceServer() {}
 
@@ -75,20 +120,74 @@ func RegisterDiscountServiceServer(s grpc.ServiceRegistrar, srv DiscountServiceS
 	s.RegisterService(&DiscountService_ServiceDesc, srv)
 }
 
-func _DiscountService_Discounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DiscountsRequest)
+func _DiscountService_Events_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EventsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DiscountServiceServer).Discounts(ctx, in)
+		return srv.(DiscountServiceServer).Events(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: DiscountService_Discounts_FullMethodName,
+		FullMethod: DiscountService_Events_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DiscountServiceServer).Discounts(ctx, req.(*DiscountsRequest))
+		return srv.(DiscountServiceServer).Events(ctx, req.(*EventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DiscountService_PublishEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PublishEventRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DiscountServiceServer).PublishEvent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DiscountService_PublishEvent_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DiscountServiceServer).PublishEvent(ctx, req.(*PublishEventRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DiscountService_ApplyGiftCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApplyGiftCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DiscountServiceServer).ApplyGiftCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DiscountService_ApplyGiftCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DiscountServiceServer).ApplyGiftCode(ctx, req.(*ApplyGiftCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DiscountService_EventUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EventUsersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DiscountServiceServer).EventUsers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DiscountService_EventUsers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DiscountServiceServer).EventUsers(ctx, req.(*EventUsersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -101,8 +200,20 @@ var DiscountService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*DiscountServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Discounts",
-			Handler:    _DiscountService_Discounts_Handler,
+			MethodName: "Events",
+			Handler:    _DiscountService_Events_Handler,
+		},
+		{
+			MethodName: "PublishEvent",
+			Handler:    _DiscountService_PublishEvent_Handler,
+		},
+		{
+			MethodName: "ApplyGiftCode",
+			Handler:    _DiscountService_ApplyGiftCode_Handler,
+		},
+		{
+			MethodName: "EventUsers",
+			Handler:    _DiscountService_EventUsers_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

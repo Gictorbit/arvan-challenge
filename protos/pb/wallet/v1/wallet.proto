@@ -5,31 +5,35 @@ package wallet.v1;
 import "google/api/annotations.proto";
 
 service WalletService {
-  rpc MyBalance(MyBalanceRequest) returns (MyBalanceResponse) {
-    option (google.api.http) = {
-      post: "/api/v1/wallet/mybalance"
-      body: "*"
-    };
+  rpc MyWallet(MyWalletRequest) returns (MyWalletResponse) {
+    option (google.api.http) = {get: "/api/v1/wallet/mywallet"};
   }
-  rpc Transactions(TransactionsRequest) returns (TransactionsResponse) {
-    option (google.api.http) = {
-      post: "/api/v1/wallet/transactions"
-      body: "*"
-    };
-  }
+  rpc AddTransaction(AddTransactionRequest) returns (AddTransactionResponse);
 }
 
-message Wallet {
+message MyWalletRequest {
+  string user_id = 1;
+}
+
+message MyWalletResponse {
+  double balance = 2;
+  repeated Transaction transactions = 3;
+}
+
+message AddTransactionRequest {
+  string user_id = 1;
+  double amount = 2;
+  string description = 3;
+}
+
+message AddTransactionResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message Transaction {
   string id = 1;
-  uint64 balance = 2;
-  string unit = 3;
+  double amount = 2;
+  string description = 3;
+  uint64 timestamp = 4;
 }
-message MyBalanceRequest {
-  uint32 user_id = 1;
-}
-
-message MyBalanceResponse {}
-
-message TransactionsRequest {}
-
-message TransactionsResponse {}
