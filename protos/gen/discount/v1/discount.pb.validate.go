@@ -163,8 +163,6 @@ func (m *ApplyGiftCodeResponse) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Success
-
 	// no validation rules for Message
 
 	// no validation rules for NewBalance

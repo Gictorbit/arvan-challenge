@@ -9,7 +9,10 @@ service DiscountService {
     option (google.api.http) = {get: "/api/v1/discount/events"};
   }
   rpc PublishEvent(PublishEventRequest) returns (PublishEventResponse) {
-    option (google.api.http) = {get: "/api/v1/discount/publishevent"};
+    option (google.api.http) = {
+      put: "/api/v1/discount/publishevent",
+      body: "*"
+    };
   }
   rpc ApplyGiftCode(ApplyGiftCodeRequest) returns (ApplyGiftCodeResponse) {
     option (google.api.http) = {
@@ -30,9 +33,8 @@ message ApplyGiftCodeRequest {
 }
 
 message ApplyGiftCodeResponse {
-  bool success = 1;
-  string message = 2;
-  double new_balance = 3;
+  string message = 1;
+  double new_balance = 2;
 }
 
 message EventsRequest {

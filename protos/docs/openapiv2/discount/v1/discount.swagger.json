@@ -112,7 +112,7 @@
       }
     },
     "/api/v1/discount/publishevent": {
-      "get": {
+      "put": {
         "operationId": "DiscountService_PublishEvent",
         "responses": {
           "200": {
@@ -130,10 +130,12 @@
         },
         "parameters": [
           {
-            "name": "eventId",
-            "in": "query",
-            "required": false,
-            "type": "string"
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1PublishEventRequest"
+            }
           }
         ],
         "tags": [
@@ -195,9 +197,6 @@
     "v1ApplyGiftCodeResponse": {
       "type": "object",
       "properties": {
-        "success": {
-          "type": "boolean"
-        },
         "message": {
           "type": "string"
         },
@@ -264,6 +263,14 @@
           "items": {
             "$ref": "#/definitions/v1Event"
           }
+        }
+      }
+    },
+    "v1PublishEventRequest": {
+      "type": "object",
+      "properties": {
+        "eventId": {
+          "type": "string"
         }
       }
     },

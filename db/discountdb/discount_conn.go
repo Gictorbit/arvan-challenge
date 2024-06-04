@@ -3,6 +3,7 @@ package discountdb
 import (
 	"context"
 	sqlmaker "github.com/Masterminds/squirrel"
+	dispb "github.com/gictorbit/arvan-challenge/protos/gen/discount/v1"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"time"
 )
@@ -10,6 +11,8 @@ import (
 type DiscountConn interface {
 	GetPgConn() *pgxpool.Pool
 	GetSQLBuilder() sqlmaker.StatementBuilderType
+	ApplyGiftCode(ctx context.Context, phone, code string) (string, float64, error)
+	GetPublishedEvents(ctx context.Context) ([]*dispb.Event, error)
 }
 
 var _ DiscountConn = &DiscountDB{}

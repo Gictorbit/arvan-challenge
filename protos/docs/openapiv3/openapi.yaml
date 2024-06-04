@@ -6,30 +6,6 @@ info:
     title: ""
     version: 0.0.1
 paths:
-    /api/v1/discount/addtransactions:
-        post:
-            tags:
-                - WalletService
-            operationId: WalletService_AddTransaction
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/AddTransactionRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/AddTransactionResponse'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
     /api/v1/discount/applycode:
         post:
             tags:
@@ -103,15 +79,16 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Status'
     /api/v1/discount/publishevent:
-        get:
+        put:
             tags:
                 - DiscountService
             operationId: DiscountService_PublishEvent
-            parameters:
-                - name: eventId
-                  in: query
-                  schema:
-                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/PublishEventRequest'
+                required: true
             responses:
                 "200":
                     description: OK
@@ -150,23 +127,6 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
-        AddTransactionRequest:
-            type: object
-            properties:
-                userId:
-                    type: string
-                amount:
-                    type: number
-                    format: double
-                description:
-                    type: string
-        AddTransactionResponse:
-            type: object
-            properties:
-                success:
-                    type: boolean
-                message:
-                    type: string
         ApplyGiftCodeRequest:
             type: object
             properties:
@@ -177,8 +137,6 @@ components:
         ApplyGiftCodeResponse:
             type: object
             properties:
-                success:
-                    type: boolean
                 message:
                     type: string
                 newBalance:
@@ -247,6 +205,11 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/Transaction'
+        PublishEventRequest:
+            type: object
+            properties:
+                eventId:
+                    type: string
         PublishEventResponse:
             type: object
             properties: {}

@@ -8,12 +8,6 @@ service WalletService {
   rpc MyWallet(MyWalletRequest) returns (MyWalletResponse) {
     option (google.api.http) = {get: "/api/v1/wallet/mywallet"};
   }
-  rpc AddTransaction(AddTransactionRequest) returns (AddTransactionResponse) {
-    option (google.api.http) = {
-      post: "/api/v1/discount/addtransactions"
-      body: "*"
-    };
-  }
 }
 
 message MyWalletRequest {
@@ -23,17 +17,6 @@ message MyWalletRequest {
 message MyWalletResponse {
   double balance = 2;
   repeated Transaction transactions = 3;
-}
-
-message AddTransactionRequest {
-  string user_id = 1;
-  double amount = 2;
-  string description = 3;
-}
-
-message AddTransactionResponse {
-  bool success = 1;
-  string message = 2;
 }
 
 message Transaction {
