@@ -8,7 +8,12 @@ service WalletService {
   rpc MyWallet(MyWalletRequest) returns (MyWalletResponse) {
     option (google.api.http) = {get: "/api/v1/wallet/mywallet"};
   }
-  rpc AddTransaction(AddTransactionRequest) returns (AddTransactionResponse);
+  rpc AddTransaction(AddTransactionRequest) returns (AddTransactionResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/discount/addtransactions"
+      body: "*"
+    };
+  }
 }
 
 message MyWalletRequest {

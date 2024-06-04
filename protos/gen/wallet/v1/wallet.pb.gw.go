@@ -140,7 +140,7 @@ func RegisterWalletServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/wallet.v1.WalletService/AddTransaction", runtime.WithHTTPPathPattern("/wallet.v1.WalletService/AddTransaction"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/wallet.v1.WalletService/AddTransaction", runtime.WithHTTPPathPattern("/api/v1/discount/addtransactions"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -226,7 +226,7 @@ func RegisterWalletServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/wallet.v1.WalletService/AddTransaction", runtime.WithHTTPPathPattern("/wallet.v1.WalletService/AddTransaction"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/wallet.v1.WalletService/AddTransaction", runtime.WithHTTPPathPattern("/api/v1/discount/addtransactions"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -248,7 +248,7 @@ func RegisterWalletServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 var (
 	pattern_WalletService_MyWallet_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "wallet", "mywallet"}, ""))
 
-	pattern_WalletService_AddTransaction_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"wallet.v1.WalletService", "AddTransaction"}, ""))
+	pattern_WalletService_AddTransaction_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "discount", "addtransactions"}, ""))
 )
 
 var (
