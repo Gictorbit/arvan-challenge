@@ -260,7 +260,7 @@ func RegisterDiscountServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/discount.v1.DiscountService/EventUsers", runtime.WithHTTPPathPattern("/discount.v1.DiscountService/EventUsers"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/discount.v1.DiscountService/EventUsers", runtime.WithHTTPPathPattern("/api/v1/discount/eventreport"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -390,7 +390,7 @@ func RegisterDiscountServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/discount.v1.DiscountService/EventUsers", runtime.WithHTTPPathPattern("/discount.v1.DiscountService/EventUsers"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/discount.v1.DiscountService/EventUsers", runtime.WithHTTPPathPattern("/api/v1/discount/eventreport"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -416,7 +416,7 @@ var (
 
 	pattern_DiscountService_ApplyGiftCode_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "discount", "applycode"}, ""))
 
-	pattern_DiscountService_EventUsers_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"discount.v1.DiscountService", "EventUsers"}, ""))
+	pattern_DiscountService_EventUsers_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "discount", "eventreport"}, ""))
 )
 
 var (

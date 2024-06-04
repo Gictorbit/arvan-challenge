@@ -54,6 +54,30 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /api/v1/discount/eventreport:
+        post:
+            tags:
+                - DiscountService
+            operationId: DiscountService_EventUsers
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/EventUsersRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/EventUsersResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /api/v1/discount/events:
         get:
             tags:
@@ -179,6 +203,25 @@ components:
                 giftAmount:
                     type: number
                     format: double
+        EventUsersRequest:
+            type: object
+            properties:
+                code:
+                    type: string
+        EventUsersResponse:
+            type: object
+            properties:
+                userUsages:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/EventUsersResponse_UserCodeUsage'
+        EventUsersResponse_UserCodeUsage:
+            type: object
+            properties:
+                userId:
+                    type: string
+                timestamp:
+                    type: string
         EventsResponse:
             type: object
             properties:

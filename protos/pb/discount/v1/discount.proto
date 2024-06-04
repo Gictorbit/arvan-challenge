@@ -17,7 +17,12 @@ service DiscountService {
       body: "*"
     };
   }
-  rpc EventUsers(EventUsersRequest) returns (EventUsersResponse) {}
+  rpc EventUsers(EventUsersRequest) returns (EventUsersResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/discount/eventreport"
+      body: "*"
+    };
+  }
 }
 message ApplyGiftCodeRequest {
   string phone = 1;

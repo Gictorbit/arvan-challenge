@@ -48,6 +48,38 @@
         ]
       }
     },
+    "/api/v1/discount/eventreport": {
+      "post": {
+        "operationId": "DiscountService_EventUsers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1EventUsersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1EventUsersRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DiscountService"
+        ]
+      }
+    },
     "/api/v1/discount/events": {
       "get": {
         "operationId": "DiscountService_Events",
@@ -202,6 +234,14 @@
         "giftAmount": {
           "type": "number",
           "format": "double"
+        }
+      }
+    },
+    "v1EventUsersRequest": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
         }
       }
     },
