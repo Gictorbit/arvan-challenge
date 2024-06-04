@@ -160,9 +160,32 @@ components:
                 newBalance:
                     type: number
                     format: double
+        Event:
+            type: object
+            properties:
+                code:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+                startTime:
+                    type: string
+                maxUsers:
+                    type: integer
+                    format: uint32
+                endTime:
+                    type: string
+                giftAmount:
+                    type: number
+                    format: double
         EventsResponse:
             type: object
-            properties: {}
+            properties:
+                events:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Event'
         GoogleProtobufAny:
             type: object
             properties:

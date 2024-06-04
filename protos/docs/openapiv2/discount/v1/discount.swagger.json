@@ -175,6 +175,36 @@
         }
       }
     },
+    "v1Event": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "startTime": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "maxUsers": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "endTime": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "giftAmount": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
     "v1EventUsersResponse": {
       "type": "object",
       "properties": {
@@ -187,7 +217,15 @@
       }
     },
     "v1EventsResponse": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Event"
+          }
+        }
+      }
     },
     "v1PublishEventResponse": {
       "type": "object"

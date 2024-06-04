@@ -34,7 +34,9 @@ message EventsRequest {
   uint32 user_id = 1;
 }
 
-message EventsResponse {}
+message EventsResponse {
+  repeated Event events = 1;
+}
 
 message Event {
   string code = 1;
@@ -43,6 +45,7 @@ message Event {
   uint64 start_time = 4;
   uint32 max_users = 5;
   uint64 end_time = 6;
+  double gift_amount = 7;
 }
 
 message PublishEventRequest {
