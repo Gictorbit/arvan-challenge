@@ -111,7 +111,7 @@ func main() {
 						return fmt.Errorf("faild to make listen address:%v", err)
 					}
 
-					walletdb, err := arvandb.NewArvanDB(dsenv.WalletDatabase, dsenv.WalletDatabase)
+					walletdb, err := arvandb.NewArvanDB(dsenv.DiscountDatabase, dsenv.DiscountDatabase)
 					if err != nil {
 						return err
 					}

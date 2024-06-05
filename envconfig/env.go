@@ -31,12 +31,12 @@ func ReadWalletEnvironment() (*WalletEnvConfig, error) {
 }
 
 type DiscountEnvConfig struct {
-	WalletDatabase string `env:"DISCOUNT_DB_POSTGRES,notEmpty"`
-	DebugMode      bool   `env:"DEBUG_MODE" envDefault:"false"`
-	Host           string `env:"DISCOUNT_HOST" envDefault:"0.0.0.0"`
-	Port           uint   `env:"DISCOUNT_PORT" envDefault:"3000"`
-	Address        string `env:"DISCOUNT_ADDRESS,expand" envDefault:"$HOST:$PORT"`
-	LogRequests    bool   `env:"LOG_REQUESTS" envDefault:"false"`
+	DiscountDatabase string `env:"DISCOUNT_DB_POSTGRES,notEmpty"`
+	DebugMode        bool   `env:"DEBUG_MODE" envDefault:"false"`
+	Host             string `env:"DISCOUNT_HOST" envDefault:"0.0.0.0"`
+	Port             uint   `env:"DISCOUNT_PORT" envDefault:"3000"`
+	Address          string `env:"DISCOUNT_ADDRESS,expand" envDefault:"$HOST:$PORT"`
+	LogRequests      bool   `env:"LOG_REQUESTS" envDefault:"false"`
 }
 
 func ReadDiscountEnvironment() (*DiscountEnvConfig, error) {
