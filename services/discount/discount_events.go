@@ -8,7 +8,11 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+// Events returns published events
 func (ds *DiscountService) Events(ctx context.Context, req *dispb.EventsRequest) (*dispb.EventsResponse, error) {
+	if e := req.ValidateAll(); e != nil {
+		return nil, status.Error(codes.InvalidArgument, e.Error())
+	}
 	events, err := ds.arvanDB.GetPublishedEvents(ctx)
 	if err != nil {
 		ds.logger.Error("failed to get published errors",

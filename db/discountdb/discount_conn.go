@@ -13,6 +13,7 @@ type DiscountConn interface {
 	GetSQLBuilder() sqlmaker.StatementBuilderType
 	ApplyGiftCode(ctx context.Context, phone, code string) (string, float64, error)
 	GetPublishedEvents(ctx context.Context) ([]*dispb.Event, error)
+	PublishEvent(ctx context.Context, eventCode string) error
 }
 
 var _ DiscountConn = &DiscountDB{}

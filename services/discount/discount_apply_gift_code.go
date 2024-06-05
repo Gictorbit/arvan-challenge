@@ -11,6 +11,9 @@ import (
 )
 
 func (ds *DiscountService) ApplyGiftCode(ctx context.Context, req *dispb.ApplyGiftCodeRequest) (*dispb.ApplyGiftCodeResponse, error) {
+	if e := req.ValidateAll(); e != nil {
+		return nil, status.Error(codes.InvalidArgument, e.Error())
+	}
 	message, newBalance, err := ds.arvanDB.ApplyGiftCode(ctx, req.Phone, req.Code)
 	if err != nil {
 		if errors.Is(err, disdb.ErrUserNotFound) || errors.Is(err, disdb.ErrGiftCodeNotFound) {
