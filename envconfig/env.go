@@ -9,9 +9,9 @@ import (
 type WalletEnvConfig struct {
 	WalletDatabase string `env:"WALLET_DB_POSTGRES,notEmpty"`
 	DebugMode      bool   `env:"DEBUG_MODE" envDefault:"false"`
-	Host           string `env:"HOST" envDefault:"0.0.0.0"`
-	Port           uint   `env:"PORT" envDefault:"3000"`
-	Address        string `env:"ADDRESS,expand" envDefault:"$HOST:$PORT"`
+	Host           string `env:"WALLET_HOST" envDefault:"0.0.0.0"`
+	Port           uint   `env:"WALLET_PORT" envDefault:"3000"`
+	Address        string `env:"WALLET_ADDRESS,expand" envDefault:"$HOST:$PORT"`
 	LogRequests    bool   `env:"LOG_REQUESTS" envDefault:"false"`
 }
 
@@ -33,9 +33,9 @@ func ReadWalletEnvironment() (*WalletEnvConfig, error) {
 type DiscountEnvConfig struct {
 	WalletDatabase string `env:"DISCOUNT_DB_POSTGRES,notEmpty"`
 	DebugMode      bool   `env:"DEBUG_MODE" envDefault:"false"`
-	Host           string `env:"HOST" envDefault:"0.0.0.0"`
-	Port           uint   `env:"PORT" envDefault:"3000"`
-	Address        string `env:"ADDRESS,expand" envDefault:"$HOST:$PORT"`
+	Host           string `env:"DISCOUNT_HOST" envDefault:"0.0.0.0"`
+	Port           uint   `env:"DISCOUNT_PORT" envDefault:"3000"`
+	Address        string `env:"DISCOUNT_ADDRESS,expand" envDefault:"$HOST:$PORT"`
 	LogRequests    bool   `env:"LOG_REQUESTS" envDefault:"false"`
 }
 
@@ -56,9 +56,9 @@ func ReadDiscountEnvironment() (*DiscountEnvConfig, error) {
 
 type GatewayEnvConfig struct {
 	DebugMode        bool   `env:"DEBUG_MODE" envDefault:"false"`
-	Host             string `env:"HOST" envDefault:"0.0.0.0"`
-	Port             uint   `env:"PORT" envDefault:"3000"`
-	Address          string `env:"ADDRESS,expand" envDefault:"$HOST:$PORT"`
+	Host             string `env:"GATEWAY_HOST" envDefault:"0.0.0.0"`
+	Port             uint   `env:"GATEWAY_PORT" envDefault:"3000"`
+	Address          string `env:"GATEWAY_ADDRESS,expand" envDefault:"$HOST:$PORT"`
 	LogRequests      bool   `env:"LOG_REQUESTS" envDefault:"false"`
 	WalletEndPoint   string `env:"WALLET_ENDPOINT"`
 	DiscountEndPoint string `env:"DISCOUNT_ENDPOINT"`

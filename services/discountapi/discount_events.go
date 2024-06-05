@@ -1,4 +1,4 @@
-package discount
+package discountapi
 
 import (
 	"context"

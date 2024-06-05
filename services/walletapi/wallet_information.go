@@ -1,4 +1,4 @@
-package wallet
+package walletapi
 
 import (
 	"context"
@@ -8,19 +8,19 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (ws *WalletService) AddTransaction(ctx context.Context, req *wlpb.AddTransactionRequest) (*wlpb.AddTransactionResponse, error) {
+func (ws *WalletService) MyWallet(ctx context.Context, req *wlpb.MyWalletRequest) (*wlpb.MyWalletResponse, error) {
 	if e := req.ValidateAll(); e != nil {
 		return nil, status.Error(codes.InvalidArgument, e.Error())
 	}
-	tid, err := ws.arvanDB.AddTransactions(ctx, req.GetUserId(), req.GetAmount(), req.GetDescription())
+	wallet, err := ws.arvanDB.MyWallet(ctx, req.GetUserId())
 	if err != nil {
-		ws.logger.Error("failed to add transaction",
+		ws.logger.Error("get wallet info failed",
 			zap.Error(err),
 			zap.Uint32("userID", req.GetUserId()),
 		)
 		return nil, status.Error(codes.Internal, "internal error")
 	}
-	return &wlpb.AddTransactionResponse{
-		TransactionId: tid,
+	return &wlpb.MyWalletResponse{
+		Wallet: wallet,
 	}, nil
 }

@@ -1,4 +1,4 @@
-package wallet
+package walletapi
 
 import (
 	"github.com/gictorbit/arvan-challenge/db"
@@ -11,13 +11,13 @@ type WalletService struct {
 	wlpb.UnimplementedWalletServiceServer
 	logger  *zap.Logger
 	arvanDB db.ArvanDBConn
-	env     *envconfig.DiscountEnvConfig
+	env     *envconfig.WalletEnvConfig
 }
 
 func NewWalletService(
 	logger *zap.Logger,
 	dbConn db.ArvanDBConn,
-	env *envconfig.DiscountEnvConfig) *WalletService {
+	env *envconfig.WalletEnvConfig) *WalletService {
 	return &WalletService{
 		logger:  logger,
 		arvanDB: dbConn,

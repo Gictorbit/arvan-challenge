@@ -1,4 +1,4 @@
-package discount
+package discountapi
 
 import (
 	"github.com/gictorbit/arvan-challenge/db"
