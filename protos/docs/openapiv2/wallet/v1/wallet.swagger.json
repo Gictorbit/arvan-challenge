@@ -16,6 +16,38 @@
     "application/json"
   ],
   "paths": {
+    "/api/v1/discount/addtransactions": {
+      "post": {
+        "operationId": "WalletService_AddTransaction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1AddTransactionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1AddTransactionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "WalletService"
+        ]
+      }
+    },
     "/api/v1/wallet/mywallet": {
       "get": {
         "operationId": "WalletService_MyWallet",
@@ -75,18 +107,37 @@
         }
       }
     },
-    "v1MyWalletResponse": {
+    "v1AddTransactionRequest": {
       "type": "object",
       "properties": {
-        "balance": {
+        "userId": {
+          "type": "string"
+        },
+        "amount": {
           "type": "number",
           "format": "double"
         },
-        "transactions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1Transaction"
-          }
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "v1AddTransactionResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MyWalletResponse": {
+      "type": "object",
+      "properties": {
+        "wallet": {
+          "$ref": "#/definitions/v1Wallet"
         }
       }
     },
@@ -106,6 +157,21 @@
         "timestamp": {
           "type": "string",
           "format": "uint64"
+        }
+      }
+    },
+    "v1Wallet": {
+      "type": "object",
+      "properties": {
+        "balance": {
+          "type": "number",
+          "format": "double"
+        },
+        "transactions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Transaction"
+          }
         }
       }
     }
