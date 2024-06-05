@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
 )
 
 var (
@@ -16,35 +15,51 @@ var (
 	ErrApplyingGiftCode       = errors.New("error applying gift code")
 )
 
-func (ddb *DiscountDB) ApplyGiftCode(ctx context.Context, phone, code string) (string, float64, error) {
-	var message string
-	var newBalance float64
-	query := "SELECT * FROM apply_gift_code($1, $2)"
-	err := ddb.postgresConn.QueryRow(ctx, query, phone, code).Scan(&message, &newBalance)
+type ApplyGiftCodeResult struct {
+	Message    string
+	NewBalance float64
+	UserID     uint32
+	EventCode  string
+	EventTitle string
+	EventDesc  string
+	GiftAmount float64
+}
+
+const applyGiftCardQuery = `
+	SELECT message, new_balance, user_id, event_code, event_title, event_desc, gift_amount
+        FROM apply_gift_code($1, $2);
+`
+
+func (ddb *DiscountDB) ApplyGiftCode(ctx context.Context, phone, code string) (*ApplyGiftCodeResult, error) {
+	var result *ApplyGiftCodeResult
+	err := ddb.postgresConn.QueryRow(ctx, applyGiftCardQuery, phone, code).Scan(
+		&result.Message,
+		&result.NewBalance,
+		&result.UserID,
+		&result.EventCode,
+		&result.EventTitle,
+		&result.EventDesc,
+		&result.GiftAmount,
+	)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			// Handle specific cases based on message content
-			switch message {
+			switch result.Message {
 			case "User not found":
-				return message, 0, ErrUserNotFound
+				return nil, ErrUserNotFound
 			case "Gift code not found":
-				return message, 0, ErrGiftCodeNotFound
+				return nil, ErrGiftCodeNotFound
 			case "Gift code is not active":
-				return message, 0, ErrGiftCodeNotActive
+				return nil, ErrGiftCodeNotActive
 			case "Gift code not valid or already fully used":
-				return message, 0, ErrGiftCodeNotValid
+				return nil, ErrGiftCodeNotValid
 			case "User has already applied this gift code":
-				return message, 0, ErrGiftCodeAlreadyApplied
+				return nil, ErrGiftCodeAlreadyApplied
 			default:
-				return "unknown error", 0, ErrApplyingGiftCode
+				return nil, ErrApplyingGiftCode
 			}
 		}
-		return "query error", 0, err
+		return nil, err
 	}
-
-	if message != "Gift code applied successfully" {
-		return message, newBalance, fmt.Errorf("failed to apply gift code: %s", message)
-	}
-
-	return message, newBalance, nil
+	return result, nil
 }

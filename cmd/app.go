@@ -11,6 +11,8 @@ import (
 	"github.com/gictorbit/arvan-challenge/services/walletapi"
 	"github.com/urfave/cli/v2"
 	"go.uber.org/zap"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/reflection"
 	"log"
 	"net"
@@ -115,7 +117,15 @@ func main() {
 					if err != nil {
 						return err
 					}
-					discountSrv := discountapi.NewDiscountService(logger, walletdb, dsenv)
+					conn, err := grpc.NewClient(dsenv.WalletClient, []grpc.DialOption{
+						grpc.WithTransportCredentials(insecure.NewCredentials()),
+					}...)
+					if err != nil {
+						log.Fatalf("did not connect: %v", err)
+					}
+					defer conn.Close()
+					wlcli := wlpb.NewWalletServiceClient(conn)
+					discountSrv := discountapi.NewDiscountService(logger, walletdb, dsenv, wlcli)
 					dispb.RegisterDiscountServiceServer(server, discountSrv)
 					go func() {
 						logger.Info("Server running ",

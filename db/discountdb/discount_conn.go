@@ -11,7 +11,7 @@ import (
 type DiscountConn interface {
 	GetPgConn() *pgxpool.Pool
 	GetSQLBuilder() sqlmaker.StatementBuilderType
-	ApplyGiftCode(ctx context.Context, phone, code string) (string, float64, error)
+	ApplyGiftCode(ctx context.Context, phone, code string) (*ApplyGiftCodeResult, error)
 	GetPublishedEvents(ctx context.Context) ([]*dispb.Event, error)
 	PublishEvent(ctx context.Context, eventCode string) error
 	EventUsers(ctx context.Context, eventCode string) ([]*dispb.UserCodeUsage, error)

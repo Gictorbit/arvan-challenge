@@ -37,6 +37,7 @@ type DiscountEnvConfig struct {
 	Port             uint   `env:"DISCOUNT_PORT" envDefault:"3000"`
 	Address          string `env:"DISCOUNT_ADDRESS,expand" envDefault:"$HOST:$PORT"`
 	LogRequests      bool   `env:"LOG_REQUESTS" envDefault:"false"`
+	WalletClient     string `env:"WALLET_CLIENT"`
 }
 
 func ReadDiscountEnvironment() (*DiscountEnvConfig, error) {
