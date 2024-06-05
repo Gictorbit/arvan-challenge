@@ -3,6 +3,7 @@ package walletdb
 import (
 	"context"
 	sqlmaker "github.com/Masterminds/squirrel"
+	wlpb "github.com/gictorbit/arvan-challenge/protos/gen/wallet/v1"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"time"
 )
@@ -10,6 +11,7 @@ import (
 type WalletConn interface {
 	GetPgConn() *pgxpool.Pool
 	GetSQLBuilder() sqlmaker.StatementBuilderType
+	MyWallet(ctx context.Context, userID uint32) (*wlpb.Wallet, error)
 }
 
 var _ WalletConn = &WalletDB{}

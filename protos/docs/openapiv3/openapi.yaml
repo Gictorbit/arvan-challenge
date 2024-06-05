@@ -135,7 +135,8 @@ paths:
                 - name: userId
                   in: query
                   schema:
-                    type: string
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK

@@ -17,7 +17,7 @@ service WalletService {
 }
 
 message MyWalletRequest {
-  string user_id = 1;
+  uint32 user_id = 1;
 }
 
 message MyWalletResponse {
