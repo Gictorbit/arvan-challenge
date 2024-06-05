@@ -164,7 +164,7 @@ components:
         EventUsersRequest:
             type: object
             properties:
-                code:
+                eventCode:
                     type: string
         EventUsersResponse:
             type: object
@@ -172,14 +172,7 @@ components:
                 userUsages:
                     type: array
                     items:
-                        $ref: '#/components/schemas/EventUsersResponse_UserCodeUsage'
-        EventUsersResponse_UserCodeUsage:
-            type: object
-            properties:
-                userId:
-                    type: string
-                timestamp:
-                    type: string
+                        $ref: '#/components/schemas/UserCodeUsage'
         EventsResponse:
             type: object
             properties:
@@ -238,6 +231,15 @@ components:
                     type: number
                     format: double
                 description:
+                    type: string
+                timestamp:
+                    type: string
+        UserCodeUsage:
+            type: object
+            properties:
+                userId:
+                    type: string
+                phone:
                     type: string
                 timestamp:
                     type: string

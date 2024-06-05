@@ -823,7 +823,7 @@ func (m *EventUsersRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Code
+	// no validation rules for EventCode
 
 	if len(errors) > 0 {
 		return EventUsersRequestMultiError(errors)
@@ -904,6 +904,112 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = EventUsersRequestValidationError{}
+
+// Validate checks the field values on UserCodeUsage with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *UserCodeUsage) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UserCodeUsage with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in UserCodeUsageMultiError, or
+// nil if none found.
+func (m *UserCodeUsage) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UserCodeUsage) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for UserId
+
+	// no validation rules for Phone
+
+	// no validation rules for Timestamp
+
+	if len(errors) > 0 {
+		return UserCodeUsageMultiError(errors)
+	}
+
+	return nil
+}
+
+// UserCodeUsageMultiError is an error wrapping multiple validation errors
+// returned by UserCodeUsage.ValidateAll() if the designated constraints
+// aren't met.
+type UserCodeUsageMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UserCodeUsageMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UserCodeUsageMultiError) AllErrors() []error { return m }
+
+// UserCodeUsageValidationError is the validation error returned by
+// UserCodeUsage.Validate if the designated constraints aren't met.
+type UserCodeUsageValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UserCodeUsageValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UserCodeUsageValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UserCodeUsageValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UserCodeUsageValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UserCodeUsageValidationError) ErrorName() string { return "UserCodeUsageValidationError" }
+
+// Error satisfies the builtin error interface
+func (e UserCodeUsageValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUserCodeUsage.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UserCodeUsageValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UserCodeUsageValidationError{}
 
 // Validate checks the field values on EventUsersResponse with the rules
 // defined in the proto definition for this message. If any rules are
@@ -1040,112 +1146,3 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = EventUsersResponseValidationError{}
-
-// Validate checks the field values on EventUsersResponse_UserCodeUsage with
-// the rules defined in the proto definition for this message. If any rules
-// are violated, the first error encountered is returned, or nil if there are
-// no violations.
-func (m *EventUsersResponse_UserCodeUsage) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on EventUsersResponse_UserCodeUsage with
-// the rules defined in the proto definition for this message. If any rules
-// are violated, the result is a list of violation errors wrapped in
-// EventUsersResponse_UserCodeUsageMultiError, or nil if none found.
-func (m *EventUsersResponse_UserCodeUsage) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *EventUsersResponse_UserCodeUsage) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for UserId
-
-	// no validation rules for Timestamp
-
-	if len(errors) > 0 {
-		return EventUsersResponse_UserCodeUsageMultiError(errors)
-	}
-
-	return nil
-}
-
-// EventUsersResponse_UserCodeUsageMultiError is an error wrapping multiple
-// validation errors returned by
-// EventUsersResponse_UserCodeUsage.ValidateAll() if the designated
-// constraints aren't met.
-type EventUsersResponse_UserCodeUsageMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m EventUsersResponse_UserCodeUsageMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m EventUsersResponse_UserCodeUsageMultiError) AllErrors() []error { return m }
-
-// EventUsersResponse_UserCodeUsageValidationError is the validation error
-// returned by EventUsersResponse_UserCodeUsage.Validate if the designated
-// constraints aren't met.
-type EventUsersResponse_UserCodeUsageValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e EventUsersResponse_UserCodeUsageValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e EventUsersResponse_UserCodeUsageValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e EventUsersResponse_UserCodeUsageValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e EventUsersResponse_UserCodeUsageValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e EventUsersResponse_UserCodeUsageValidationError) ErrorName() string {
-	return "EventUsersResponse_UserCodeUsageValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e EventUsersResponse_UserCodeUsageValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sEventUsersResponse_UserCodeUsage.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = EventUsersResponse_UserCodeUsageValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = EventUsersResponse_UserCodeUsageValidationError{}

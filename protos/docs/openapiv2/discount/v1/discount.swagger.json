@@ -145,17 +145,6 @@
     }
   },
   "definitions": {
-    "EventUsersResponseUserCodeUsage": {
-      "type": "object",
-      "properties": {
-        "userId": {
-          "type": "string"
-        },
-        "timestamp": {
-          "type": "string"
-        }
-      }
-    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -239,7 +228,7 @@
     "v1EventUsersRequest": {
       "type": "object",
       "properties": {
-        "code": {
+        "eventCode": {
           "type": "string"
         }
       }
@@ -250,7 +239,7 @@
         "userUsages": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/EventUsersResponseUserCodeUsage"
+            "$ref": "#/definitions/v1UserCodeUsage"
           }
         }
       }
@@ -276,6 +265,21 @@
     },
     "v1PublishEventResponse": {
       "type": "object"
+    },
+    "v1UserCodeUsage": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
     }
   }
 }

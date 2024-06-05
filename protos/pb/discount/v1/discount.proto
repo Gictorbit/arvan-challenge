@@ -62,13 +62,14 @@ message PublishEventRequest {
 message PublishEventResponse {}
 
 message EventUsersRequest {
-  string code = 1;
+  string event_code = 1;
 }
 
+message UserCodeUsage {
+  string user_id = 1;
+  string phone = 2;
+  uint64 timestamp = 3;
+}
 message EventUsersResponse {
   repeated UserCodeUsage user_usages = 1;
-  message UserCodeUsage {
-    string user_id = 1;
-    string timestamp = 2;
-  }
 }
