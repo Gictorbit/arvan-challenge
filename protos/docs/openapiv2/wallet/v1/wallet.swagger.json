@@ -112,7 +112,8 @@
       "type": "object",
       "properties": {
         "userId": {
-          "type": "string"
+          "type": "integer",
+          "format": "int64"
         },
         "amount": {
           "type": "number",
@@ -126,11 +127,9 @@
     "v1AddTransactionResponse": {
       "type": "object",
       "properties": {
-        "success": {
-          "type": "boolean"
-        },
-        "message": {
-          "type": "string"
+        "transactionId": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     },
@@ -146,7 +145,8 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "integer",
+          "format": "int64"
         },
         "amount": {
           "type": "number",

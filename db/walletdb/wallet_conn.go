@@ -12,6 +12,7 @@ type WalletConn interface {
 	GetPgConn() *pgxpool.Pool
 	GetSQLBuilder() sqlmaker.StatementBuilderType
 	MyWallet(ctx context.Context, userID uint32) (*wlpb.Wallet, error)
+	AddTransactions(ctx context.Context, userID uint32, amount float64, description string) (uint32, error)
 }
 
 var _ WalletConn = &WalletDB{}

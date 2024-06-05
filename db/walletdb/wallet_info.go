@@ -32,7 +32,7 @@ func (wdb *WalletDB) MyWallet(ctx context.Context, userID uint32) (*wlpb.Wallet,
 	for rows.Next() {
 		var (
 			balance       sql.NullFloat64
-			transactionID sql.NullString
+			transactionID sql.NullInt64
 			amount        sql.NullFloat64
 			description   sql.NullString
 			timestamp     sql.NullInt64
@@ -48,7 +48,7 @@ func (wdb *WalletDB) MyWallet(ctx context.Context, userID uint32) (*wlpb.Wallet,
 
 		if transactionID.Valid {
 			transaction := &wlpb.Transaction{
-				Id:          transactionID.String,
+				Id:          uint32(transactionID.Int64),
 				Amount:      amount.Float64,
 				Description: description.String,
 				Timestamp:   uint64(timestamp.Int64),

@@ -156,7 +156,8 @@ components:
             type: object
             properties:
                 userId:
-                    type: string
+                    type: integer
+                    format: uint32
                 amount:
                     type: number
                     format: double
@@ -165,10 +166,9 @@ components:
         AddTransactionResponse:
             type: object
             properties:
-                success:
-                    type: boolean
-                message:
-                    type: string
+                transactionId:
+                    type: integer
+                    format: uint32
         ApplyGiftCodeRequest:
             type: object
             properties:
@@ -263,7 +263,8 @@ components:
             type: object
             properties:
                 id:
-                    type: string
+                    type: integer
+                    format: uint32
                 amount:
                     type: number
                     format: double

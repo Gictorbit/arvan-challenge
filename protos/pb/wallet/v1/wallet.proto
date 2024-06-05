@@ -30,19 +30,18 @@ message Wallet {
 }
 
 message Transaction {
-  string id = 1;
+  uint32 id = 1;
   double amount = 2;
   string description = 3;
   uint64 timestamp = 4;
 }
 
 message AddTransactionRequest {
-  string user_id = 1;
+  uint32 user_id = 1;
   double amount = 2;
   string description = 3;
 }
 
 message AddTransactionResponse {
-  bool success = 1;
-  string message = 2;
+  uint32 transaction_id = 1;
 }
